@@ -1,21 +1,5 @@
-import mongoose, { Document, Schema } from "mongoose";
+import { Post as PrismaPost } from "@prisma/client";
 
-export interface IPost extends Document {
-  title: string;
-  content: string;
-  author: mongoose.Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type IPost = PrismaPost;
 
-const postSchema = new Schema<IPost>({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
-
-const Post = mongoose.models.Post || mongoose.model<IPost>("Post", postSchema);
-
-export default Post;
+export { PrismaPost as Post };

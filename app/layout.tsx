@@ -24,9 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`antialiased bg-white text-neutral-900 ${b612.className}`}
-      >
+
         <Header />
         <main>{children}</main>
         <Footer />

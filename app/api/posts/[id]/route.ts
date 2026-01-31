@@ -1,21 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import Post from "../../../../models/post.model";
-import connectDB from "../../../../libs/db";
+import { prisma } from "../../../../libs/db";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await connectDB();
-
-    const post = await Post.findById(params.id).populate(
-      "author",
-      "name email",
-    );
+    const { id } = await params;
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
@@ -32,11 +37,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await connectDB();
-
+    const { id } = await params;
     const authHeader = request.headers.get("authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -50,25 +54,37 @@ export async function PUT(
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    const post = await Post.findById(params.id);
-    if (!post) {
+    const existingPost = await prisma.post.findUnique({
+      where: { id },
+    });
+    if (!existingPost) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
-    if (post.author.toString() !== decoded.userId) {
+    if (existingPost.authorId !== decoded.userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const { title, content } = await request.json();
 
-    if (title !== undefined) post.title = title;
-    if (content !== undefined) post.content = content;
-    post.updatedAt = new Date();
-
-    await post.save();
+    const updatedPost = await prisma.post.update({
+      where: { id },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(content !== undefined && { content }),
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
 
     return NextResponse.json(
-      { message: "Post updated successfully", post },
+      { message: "Post updated successfully", post: updatedPost },
       { status: 200 },
     );
   } catch (error) {
@@ -82,11 +98,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await connectDB();
-
+    const { id } = await params;
     const authHeader = request.headers.get("authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -100,16 +115,20 @@ export async function DELETE(
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    const post = await Post.findById(params.id);
-    if (!post) {
+    const existingPost = await prisma.post.findUnique({
+      where: { id },
+    });
+    if (!existingPost) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
-    if (post.author.toString() !== decoded.userId) {
+    if (existingPost.authorId !== decoded.userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    await Post.findByIdAndDelete(params.id);
+    await prisma.post.delete({
+      where: { id },
+    });
 
     return NextResponse.json(
       { message: "Post deleted successfully" },

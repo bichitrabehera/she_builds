@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import Post from "../../../models/post.model";
-import connectDB from "../../../libs/db";
+import { prisma } from "../../../libs/db";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-
     const authHeader = request.headers.get("authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,13 +28,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newPost = new Post({
-      title,
-      content,
-      author: decoded.userId,
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        authorId: decoded.userId,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
-
-    await newPost.save();
 
     return NextResponse.json(
       { message: "Post created successfully", post: newPost },
@@ -54,11 +59,19 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
-
-    const posts = await Post.find()
-      .populate("author", "name email")
-      .sort({ createdAt: -1 });
+    const posts = await prisma.post.findMany({
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {

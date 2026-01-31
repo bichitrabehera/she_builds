@@ -1,38 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import User from "../../../../models/user.model";
-import connectDB from "../../../../libs/db";
+import { prisma } from "../../../../libs/db";
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-
+    console.log("Registration request received");
     const { name, email, password } = await request.json();
+    console.log("Request data:", { name, email, password: "***" });
 
     if (!name || !email || !password) {
+      console.log("Missing required fields");
       return NextResponse.json(
         { error: "Name, email, and password are required" },
         { status: 400 },
       );
     }
 
-    const existingUser = await User.findOne({ email });
+    console.log("Checking for existing user");
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+    console.log("Existing user:", existingUser);
+
     if (existingUser) {
+      console.log("User already exists");
       return NextResponse.json(
         { error: "User already exists" },
         { status: 400 },
       );
     }
 
+    console.log("Hashing password");
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
-      name,
-      email,
-      password: hashedPassword,
+    console.log("Creating user");
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
     });
-
-    await newUser.save();
+    console.log("User created successfully");
 
     return NextResponse.json(
       { message: "User registered successfully" },

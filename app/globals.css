@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+/* body{
+    font-family: "over";
+} */
+
+@font-face {
+  font-family: "new";
+  src: url("/fonts/BNWispy.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "over";
+  src: url("/fonts/gt-america-standard-regular-webfont.woff2") format('webfont') ;
+  font-weight: normal;
+  font-style: normal;
+}

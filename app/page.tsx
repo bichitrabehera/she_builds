@@ -1,10 +1,19 @@
-import Header from "@/components/Header";
+import About from "@/components/About";
+import FAQs from "@/components/Faqs";
+import Hero from "@/components/Hero";
+import People from "@/components/People";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import React from "react";
 
 const Home = () => {
   return (
     <>
-      <Header />
+      <SmoothScrollProvider>
+        <Hero />
+        <About />
+        <People />
+        <FAQs/>
+      </SmoothScrollProvider>
     </>
   );
 };

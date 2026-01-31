@@ -29,10 +29,10 @@ const FAQs = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
+    <section className="py-16 bg-gray-50 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold  text-black sm:text-4xl lg:text-5xl">
+          <h2 className="text-4xl font-bold  text-black">
             FAQs
           </h2>
           <p className="mt-4 text-gray-600">

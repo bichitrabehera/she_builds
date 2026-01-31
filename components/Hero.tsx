@@ -1,44 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
-import Masonry from "./Masonry";
 
-const items = [
-  {
-    id: "1",
-    img: "https://picsum.photos/id/1015/600/900?grayscale",
-    url: "#",
-    height: 400,
-  },
-  {
-    id: "2",
-    img: "https://picsum.photos/id/1011/600/750?grayscale",
-    url: "#",
-    height: 250,
-  },
-  {
-    id: "3",
-    img: "https://picsum.photos/id/1020/600/800?grayscale",
-    url: "#",
-    height: 600,
-  },
-  {
-    id: "4",
-    img: "https://picsum.photos/id/1016/600/700?grayscale",
-    url: "#",
-    height: 450,
-  },
-  {
-    id: "5",
-    img: "https://picsum.photos/id/1018/600/850?grayscale",
-    url: "#",
-    height: 520,
-  },
+const images = [
+  "/gallery/img1.jpg",
+  "/gallery/img2.jpg",
+  "/gallery/img3.jpg",
+  "/gallery/img4.jpg",
 ];
 
 const Hero = () => {
   const textRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     gsap.fromTo(
@@ -54,17 +29,25 @@ const Hero = () => {
     );
   }, []);
 
+  const next = () => setIndex((prev) => (prev + 1) % images.length);
+
+  const prev = () =>
+    setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+
   return (
     <section className="relative overflow-hidden bg-linear-to-br from-purple-50 via-white to-pink-50">
-      {/* floating glow blobs */}
-      <div className="absolute -top-32 -left-32 w-105 h-105 bg-purple-300/30 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute top-1/3 -right-32 w-105 h-105 bg-pink-300/30 rounded-full blur-3xl animate-pulse" />
+      {/* blobs */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-300/60 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-1/3 -right-32 w-96 h-96 bg-pink-300/50 rounded-full blur-3xl animate-pulse" />
 
       <div className="relative max-w-6xl mx-auto px-6 py-20 text-center">
-        {/* Text */}
+        {/* TEXT */}
         <div ref={textRef}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font font-semibold tracking-tight text-neutral-900 max-w-4xl mx-auto">
-            Building an ecosystem for <span className="font-[new] font-bold "><i>women</i></span>{" "}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-neutral-900 max-w-4xl mx-auto">
+            Building an ecosystem for{" "}
+            <span className="font-[new] font-bold">
+              <i>women</i>
+            </span>{" "}
             who build in Bangalore
           </h1>
 
@@ -74,19 +57,40 @@ const Hero = () => {
           </p>
         </div>
 
-        {/* Masonry */}
-        <div className="relative mt-24 pb-100">
-          <Masonry
-            items={items}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.05}
-            // animateFrom="bottom"
-            scaleOnHover
-            hoverScale={0.96}
-            blurToFocus
-            colorShiftOnHover={true}
-          />
+        {/* CAROUSEL */}
+        <div className="relative mt-24 mx-auto w-full max-w-4xl">
+          <div className="relative h-100 overflow-hidden rounded-xl">
+            {images.map((src, i) => (
+              <div
+                key={i}
+                className={`absolute inset-0 transition-opacity duration-700 ${
+                  i === index ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={prev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/70 hover:bg-white text-black rounded-full w-10 h-10 flex items-center justify-center"
+          >
+            ‹
+          </button>
+
+          <button
+            onClick={next}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/70 hover:bg-white text-black rounded-full w-10 h-10 flex items-center justify-center"
+          >
+            ›
+          </button>
         </div>
       </div>
     </section>

@@ -1,18 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   return (
     <header className=" sticky top-0 z-50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        
         {/* Logo */}
         <div className="text-xl font-bold uppercase text-purple-700">
-         / shebuilds <span className="text-neutral-900">blr</span>
+          / shebuilds <span className="text-neutral-900">blr</span>
         </div>
 
         {/* Desktop nav */}
@@ -23,18 +28,53 @@ const Header = () => {
                 href="/posts"
                 className="text-neutral-700 hover:text-purple-700 transition"
               >
-                View All Events
+                Posts
               </Link>
             </li>
 
-            <li>
-              <Link
-                href="/join"
-                className="bg-purple-600 text-white px-4 py-2 rounded-2xl hover:bg-purple-700 transition"
-              >
-                Join Community
-              </Link>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <Link
+                    href="/posts/create"
+                    className="text-neutral-700 hover:text-purple-700 transition"
+                  >
+                    Create Post
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      window.location.href = "/posts";
+                    }}
+                    className="text-neutral-700 hover:text-purple-700 transition"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    href="/auth/login"
+                    className="text-neutral-700 hover:text-purple-700 transition"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/auth/register"
+                    className="bg-purple-600 text-white px-4 py-2 rounded-2xl hover:bg-purple-700 transition"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
 
@@ -68,19 +108,56 @@ const Header = () => {
                 onClick={() => setOpen(false)}
                 className="block text-neutral-700 hover:text-purple-700"
               >
-                View All Events
+                Posts
               </Link>
             </li>
 
-            <li>
-              <Link
-                href="/join"
-                onClick={() => setOpen(false)}
-                className="block bg-purple-600 text-white text-center py-2 rounded-2xl hover:bg-purple-700 transition"
-              >
-                Join Community
-              </Link>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <Link
+                    href="/posts/create"
+                    onClick={() => setOpen(false)}
+                    className="block text-neutral-700 hover:text-purple-700"
+                  >
+                    Create Post
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      window.location.href = "/posts";
+                    }}
+                    className="block text-neutral-700 hover:text-purple-700 text-left"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    href="/auth/login"
+                    onClick={() => setOpen(false)}
+                    className="block text-neutral-700 hover:text-purple-700"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/auth/register"
+                    onClick={() => setOpen(false)}
+                    className="block bg-purple-600 text-white text-center py-2 rounded-2xl hover:bg-purple-700 transition"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}

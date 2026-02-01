@@ -20,6 +20,7 @@ model Post {
   id        String   @id @default(cuid())
   title     String
   content   String
+  imageUrl  String?
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

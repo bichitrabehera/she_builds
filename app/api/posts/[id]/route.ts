@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../../../libs/db";
+import { uploadImageToCloudinary } from "../../../../libs/upload";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
@@ -65,13 +66,31 @@ export async function PUT(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { title, content } = await request.json();
+    const formData = await request.formData();
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const imageFile = formData.get("image") as File | null;
+
+    let imageUrl: string | undefined;
+
+    if (imageFile && imageFile.size > 0) {
+      try {
+        imageUrl = await uploadImageToCloudinary(imageFile);
+      } catch (uploadError) {
+        console.error("Image upload error:", uploadError);
+        return NextResponse.json(
+          { error: "Failed to upload image" },
+          { status: 500 },
+        );
+      }
+    }
 
     const updatedPost = await prisma.post.update({
       where: { id },
       data: {
         ...(title !== undefined && { title }),
         ...(content !== undefined && { content }),
+        ...(imageUrl !== undefined && { imageUrl }),
       },
       include: {
         author: {

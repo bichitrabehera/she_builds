@@ -5,10 +5,10 @@ import Image from "next/image";
 import gsap from "gsap";
 
 const images = [
-  "/gallery/img1.jpg",
-  "/gallery/img2.jpg",
-  "/gallery/img3.jpg",
-  "/gallery/img4.jpg",
+  "/gallery/img1.png",
+  "/gallery/img2.png",
+  "/gallery/img3.png",
+  "/gallery/img4.png",
 ];
 
 const Hero = () => {

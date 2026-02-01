@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 const Header = () => {
   return (
-    <header className=" sticky top-0 z-50 backdrop-blur-md">
+    <header className=" top-0 z-50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="text-xl font-bold uppercase text-purple-700">
           / shebuilds <span className="text-neutral-900">blr</span>

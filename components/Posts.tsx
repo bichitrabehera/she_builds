@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import Image from "next/image";
 
 interface Post {
   _id: string;
@@ -24,46 +23,49 @@ interface Post {
 const PostCard = ({ post }: { post: Post }) => {
   const today = new Date().toISOString().split("T")[0];
   const eventDay = post.eventDate?.split("T")[0];
-
   const isUpcoming = post.eventDate && eventDay >= today;
 
   return (
-    <div className="bg-gray-50 rounded border mx-auto w-90 border-black/20 overflow-hidden transition-shadow duration-300 relative">
-      {isUpcoming && (
-        <span className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
-          Upcoming
-        </span>
-      )}
-
+    <div className="bg-white rounded-xl border border-black/10 shadow-sm hover:shadow-lg transition flex flex-col overflow-hidden relative">
       {post.imageUrl && (
-        <div className="relative h-60 w-full">
+        <div className="relative h-52 w-full">
           <img
             src={post.imageUrl}
             alt={post.title}
-            className="object-cover h-full"
+            className="w-full h-full object-cover"
             loading="lazy"
           />
+
+          {isUpcoming && (
+            <span className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+              Upcoming
+            </span>
+          )}
         </div>
       )}
 
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">{post.title}</h2>
+      <div className="p-5 flex flex-col flex-grow">
+        <h2 className="text-lg font-semibold text-gray-900 mb-2">
+          {post.title}
+        </h2>
 
         {post.eventDate && (
-          <p className="text text-blue-600 font-semibold mb-2">
-            📅 Event Date: {format(new Date(post.eventDate), "MMMM d, yyyy")}
+          <p className="text-sm text-blue-600 font-medium mb-3">
+            📅 {format(new Date(post.eventDate), "MMM d, yyyy")}
           </p>
         )}
 
-        <p className="text-gray-600 mb-4">{post.content}</p>
+        <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+          {post.content}
+        </p>
 
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="mt-auto flex flex-wrap gap-2">
           {post.pdfUrl && (
             <a
               href={post.pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+              className="inline-flex items-center px-3 py-2 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
             >
               View PDF
             </a>
@@ -74,7 +76,7 @@ const PostCard = ({ post }: { post: Post }) => {
               href={post.registrationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
+              className="inline-flex items-center px-4 py-2 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
             >
               {post.customButtonLabel || "Register"}
             </a>
@@ -97,7 +99,13 @@ const PostsFeed = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setPosts(data.posts);
+          const sorted = [...data.posts].sort(
+            (a: Post, b: Post) =>
+              new Date(b.createdAt.replace(" ", "T")).getTime() -
+              new Date(a.createdAt.replace(" ", "T")).getTime(),
+          );
+
+          setPosts(sorted);
         } else {
           setError(data.error || "Failed to fetch posts");
         }
@@ -129,9 +137,9 @@ const PostsFeed = () => {
   }
 
   return (
-    <section className=" px-6 py-16 bg-gray-50">
+    <section className="px-6 py-16 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-10 text-gray-800 text-center">
+        <h1 className="text-4xl font-bold mb-12 text-gray-800 text-center">
           Posts
         </h1>
 

@@ -125,7 +125,7 @@ const PersonCard = React.memo(function PersonCard({
   person: Person;
 }) {
   return (
-    <div className="w-80 flex flex-col overflow-hidden rounded border border-black/10 group">
+    <div className="w-80 flex flex-col overflow-hidden rounded-xl shadow border border-black/10 group">
       <div className="relative w-full h-70 overflow-hidden">
         <Image
           src={person.image}
@@ -187,7 +187,7 @@ export default function People() {
             Bangalore Regional Head
           </h2>
 
-          <div className="w-80 flex flex-col overflow-hidden rounded border border-black/10 group">
+          <div className="w-80 flex flex-col overflow-hidden rounded-xl border border-black/10 group">
             <div className="relative w-full h-70 overflow-hidden">
               <Image
                 src="/gallery/trisha.jpeg"
@@ -229,8 +229,8 @@ export default function People() {
               className={`px-4 py-2 rounded text-sm font-medium transition
                 ${
                   activeTeam === team
-                    ? "bg-purple-600 text-white"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                    ? "bg-gray-600 text-white"
+                    : "bg-blue-100 text-neutral-700 hover:bg-blue-200"
                 }`}
             >
               {team}

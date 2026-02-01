@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import "dotenv/config";
+// import "dotenv/config";
 
 if (
   !process.env.CLOUDINARY_CLOUD_NAME ||

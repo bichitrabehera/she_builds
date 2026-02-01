@@ -20,7 +20,10 @@ export async function POST(request: NextRequest) {
     try {
       decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     } catch (err) {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+      return NextResponse.json(
+        { error: `Invalid token ${err}` },
+        { status: 401 },
+      );
     }
 
     const formData = await request.formData();
@@ -96,7 +99,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const posts = await prisma.post.findMany({
       include: {

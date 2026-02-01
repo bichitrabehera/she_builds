@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, email, password }),
       });
@@ -36,12 +36,15 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/auth/login?message=Registration successful, please login');
+        router.push(
+          "/auth/login?message=Registration successful, please login",
+        );
       } else {
-        setError(data.error || 'Registration failed');
+        setError(data.error || "Registration failed");
       }
     } catch (err) {
-      setError('Error during registration');
+      setError("Error during registration");
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -61,7 +64,7 @@ const Register = () => {
               {error}
             </div>
           )}
-          
+
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="sr-only">
@@ -78,7 +81,7 @@ const Register = () => {
                 placeholder="Full name"
               />
             </div>
-            
+
             <div>
               <label htmlFor="email" className="sr-only">
                 Email address
@@ -95,7 +98,7 @@ const Register = () => {
                 placeholder="Email address"
               />
             </div>
-            
+
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
@@ -111,7 +114,7 @@ const Register = () => {
                 placeholder="Password"
               />
             </div>
-            
+
             <div>
               <label htmlFor="confirmPassword" className="sr-only">
                 Confirm Password
@@ -135,7 +138,7 @@ const Register = () => {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating account...' : 'Sign up'}
+              {loading ? "Creating account..." : "Sign up"}
             </button>
           </div>
 

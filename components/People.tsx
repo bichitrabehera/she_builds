@@ -1,27 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 
-const teams = {
+type Person = {
+  name: string;
+  image: string;
+  linkedin?: string;
+  instagram?: string;
+};
+
+type TeamKey = "Sponsorship" | "Web" | "Design" | "Media" | "Marketing";
+
+const TEAMS: Record<TeamKey, Person[]> = {
   Sponsorship: [
     {
       name: "Aastha",
       image: "https://api.dicebear.com/7.x/adventurer/png?seed=Aastha",
-      linkedin: "https://linkedin.com/in/aastha",
-      instagram: "https://instagram.com/aastha",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Harsh",
       image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Harsh",
-      linkedin: "https://linkedin.com/in/harsh",
-      instagram: "https://instagram.com/harsh",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Pia",
       image: "https://api.dicebear.com/7.x/bottts/png?seed=Pia",
-      linkedin: "https://linkedin.com/in/pia",
-      instagram: "https://instagram.com/pia",
+      linkedin: "#",
+      instagram: "#",
     },
   ],
 
@@ -29,20 +38,20 @@ const teams = {
     {
       name: "Bichitra",
       image: "https://api.dicebear.com/7.x/lorelei/png?seed=Bichitra",
-      linkedin: "https://linkedin.com/in/aarav",
-      instagram: "https://instagram.com/aarav",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Matharishwa",
       image: "https://api.dicebear.com/7.x/adventurer/png?seed=Matharishwa",
-      linkedin: "https://linkedin.com/in/isha",
-      instagram: "https://instagram.com/isha",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Khushi",
       image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Khushi",
-      linkedin: "https://linkedin.com/in/kunal",
-      instagram: "https://instagram.com/kunal",
+      linkedin: "#",
+      instagram: "#",
     },
   ],
 
@@ -50,20 +59,20 @@ const teams = {
     {
       name: "Raksha",
       image: "https://api.dicebear.com/7.x/lorelei/png?seed=Raksha",
-      linkedin: "https://linkedin.com/in/raksha",
-      instagram: "https://instagram.com/raksha",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Moulika",
       image: "https://api.dicebear.com/7.x/adventurer/png?seed=Moulika",
-      linkedin: "https://linkedin.com/in/moulika",
-      instagram: "https://instagram.com/moulika",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Moulya",
       image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Moulya",
-      linkedin: "https://linkedin.com/in/moulya",
-      instagram: "https://instagram.com/moulya",
+      linkedin: "#",
+      instagram: "#",
     },
   ],
 
@@ -71,14 +80,14 @@ const teams = {
     {
       name: "Vivan",
       image: "https://api.dicebear.com/7.x/bottts/png?seed=Vivan",
-      linkedin: "https://linkedin.com/in/vivan",
-      instagram: "https://instagram.com/vivan",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Sachin",
       image: "https://api.dicebear.com/7.x/lorelei/png?seed=Sachin",
-      linkedin: "https://linkedin.com/in/sachin",
-      instagram: "https://instagram.com/sachin",
+      linkedin: "#",
+      instagram: "#",
     },
   ],
 
@@ -86,116 +95,158 @@ const teams = {
     {
       name: "Tathagat",
       image: "https://api.dicebear.com/7.x/adventurer/png?seed=Tathagat",
-      linkedin: "https://linkedin.com/in/tathagat",
-      instagram: "https://instagram.com/tathagat",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Naman",
       image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Naman",
-      linkedin: "https://linkedin.com/in/naman",
-      instagram: "https://instagram.com/naman",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Lohitha",
       image: "https://api.dicebear.com/7.x/lorelei/png?seed=Lohitha",
-      linkedin: "https://instagram.com/lohitha",
-      instagram: "https://instagram.com/lohitha",
+      linkedin: "#",
+      instagram: "#",
     },
     {
       name: "Erum",
       image: "https://api.dicebear.com/7.x/bottts/png?seed=Erum",
-      linkedin: "https://linkedin.com/in/erum",
-      instagram: "https://instagram.com/erum",
+      linkedin: "#",
+      instagram: "#",
     },
   ],
 };
 
+const PersonCard = React.memo(function PersonCard({
+  person,
+}: {
+  person: Person;
+}) {
+  return (
+    <div className="w-80 flex flex-col overflow-hidden rounded border border-black/10 group">
+      <div className="relative w-full h-70 overflow-hidden">
+        <Image
+          src={person.image}
+          alt={person.name}
+          fill
+          sizes="200px"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
 
-const People = () => {
-  const [activeTeam, setActiveTeam] =
-    useState<keyof typeof teams>("Sponsorship");
+      <div className="bg-black/80 text-white text-center">
+        <h3 className="text-lg font-semibold py-3">{person.name}</h3>
+
+        <div className="flex border-t border-white/20">
+          {person.linkedin && (
+            <a
+              href={person.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 border-r text-sm hover:bg-white hover:text-black transition"
+            >
+              LinkedIn
+            </a>
+          )}
+
+          {person.instagram && (
+            <a
+              href={person.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 text-sm hover:bg-white hover:text-black transition"
+            >
+              Instagram
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+export default function People() {
+  const [activeTeam, setActiveTeam] = useState<TeamKey>("Sponsorship");
+
+  const people = useMemo(() => TEAMS[activeTeam], [activeTeam]);
 
   return (
     <section className="bg-white py-16">
       <div className=" mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-14">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Our Team</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Meet the passionate individuals driving the SheBuilds community
-            forward
+          <p className="text-gray-600">
+            Meet the passionate individuals driving SheBuilds forward
           </p>
         </div>
 
-        <div className="mb-12">
-          <div className="flex flex-wrap justify-center gap-3">
-            {Object.keys(teams).map((team) => (
-              <button
-                key={team}
-                onClick={() => setActiveTeam(team as keyof typeof teams)}
-                className={`px-4 py-2 text-sm font-medium rounded transition
-          ${
-            activeTeam === team
-              ? "bg-purple-600 text-white shadow"
-              : "bg-purple-50 text-purple-700 hover:bg-purple-100"
-          }`}
-              >
-                {team}
-              </button>
-            ))}
+        <div className="pb-20 flex flex-col items-center gap-4">
+          <h2 className="text-purple-600 font-semibold text-xl">
+            Bangalore Regional Head
+          </h2>
+
+          <div className="w-80 flex flex-col overflow-hidden rounded border border-black/10 group">
+            <div className="relative w-full h-70 overflow-hidden">
+              <Image
+                src="/gallery/trisha.jpeg"
+                alt="Trisha"
+                fill
+                sizes="200px"
+                priority
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+
+            <div className="bg-black/80 text-white text-center">
+              <h3 className="text-lg font-semibold py-3">Trisha</h3>
+
+              <div className="flex border-t border-white/20">
+                <a
+                  href="#"
+                  className="w-full py-3 border-r text-sm hover:bg-white hover:text-black transition"
+                >
+                  LinkedIn
+                </a>
+
+                <a
+                  href="#"
+                  className="w-full py-3 text-sm hover:bg-white hover:text-black transition"
+                >
+                  Instagram
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-8">
-          {teams[activeTeam].map((person, index) => (
-            <div
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {(Object.keys(TEAMS) as TeamKey[]).map((team, index) => (
+            <button
               key={index}
-              className="group relative w-80 h-80 rounded overflow-hidden border border-black/10 hover:border-white/30 transition-all duration-300"
+              onClick={() => setActiveTeam(team)}
+              className={`px-4 py-2 rounded text-sm font-medium transition
+                ${
+                  activeTeam === team
+                    ? "bg-purple-600 text-white"
+                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                }`}
             >
-              <Image
-                src={person.image}
-                alt={person.name}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
+              {team}
+            </button>
+          ))}
+        </div>
 
-              {/* GLASS OVERLAY */}
-              <div className="absolute bottom-0 w-full bg-white/10 backdrop-blur-[10px] text-center">
-                {/* Name */}
-                <h3 className="text-lg py-2 font-semibold text-white">
-                  {person.name}
-                </h3>
-
-                {/* Social links */}
-                <div className="flex justify-center">
-                  {person.linkedin && (
-                    <a
-                      href={person.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" text-sm w-full px-2 py-3 border border-black/30 text-white hover:bg-white hover:text-black transition"
-                    >
-                      LinkedIn
-                    </a>
-                  )}
-
-                  {person.instagram && (
-                    <a
-                      href={person.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" text-sm w-full px-2 py-3 border border-black/30 text-white hover:bg-white hover:text-black transition"
-                    >
-                      Instagram
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-wrap justify-center gap-8">
+          {people.map((person, index) => (
+            <PersonCard
+              key={`${activeTeam}-${person.name}-${index}`}
+              person={person}
+            />
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default People;
+}

@@ -23,7 +23,7 @@ const PostDetail = () => {
 
   useEffect(() => {
     fetchPost();
-  }, [postId]);
+  });
 
   const fetchPost = async () => {
     try {
@@ -100,6 +100,7 @@ const PostDetail = () => {
       const formData = new FormData();
       formData.append("title", editTitle);
       formData.append("content", editContent);
+<<<<<<< HEAD
       if (editRegistrationUrl) {
         formData.append("registrationUrl", editRegistrationUrl);
       }
@@ -108,6 +109,10 @@ const PostDetail = () => {
       }
       if (editPdfFile) {
         formData.append("pdf", editPdfFile);
+=======
+      if (editImageFile) {
+        formData.append("image", editImageFile);
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
       }
 
       const response = await fetch(`/api/posts/${postId}`, {
@@ -130,6 +135,10 @@ const PostDetail = () => {
       }
     } catch (err) {
       setError("Error updating post");
+<<<<<<< HEAD
+=======
+      console.log(err);
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
     } finally {
       setUpdateLoading(false);
     }
@@ -160,6 +169,10 @@ const PostDetail = () => {
       }
     } catch (err) {
       setError("Error deleting post");
+<<<<<<< HEAD
+=======
+      console.log(err);
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
     }
   };
 
@@ -218,6 +231,7 @@ const PostDetail = () => {
 
               <div>
                 <label
+<<<<<<< HEAD
                   htmlFor="edit-registrationUrl"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
@@ -238,6 +252,8 @@ const PostDetail = () => {
 
               <div>
                 <label
+=======
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                   htmlFor="edit-image"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
@@ -253,7 +269,11 @@ const PostDetail = () => {
 
                 {(imagePreview || post.imageUrl) && (
                   <div className="mt-4">
+<<<<<<< HEAD
                     <img
+=======
+                    <Image
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                       src={imagePreview || post.imageUrl || ""}
                       alt="Preview"
                       className="w-full max-w-md h-48 object-cover rounded-md"
@@ -383,7 +403,11 @@ const PostDetail = () => {
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {post.imageUrl && (
+<<<<<<< HEAD
               <img
+=======
+              <Image
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                 src={post.imageUrl}
                 alt={post.title}
                 className="w-full h-64 object-cover"
@@ -418,6 +442,7 @@ const PostDetail = () => {
                 </p>
               </div>
 
+<<<<<<< HEAD
               {post.registrationUrl && (
                 <div className="mb-6">
                   <a
@@ -431,10 +456,13 @@ const PostDetail = () => {
                 </div>
               )}
 
+=======
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
               <div className="prose max-w-none">
                 <p className="text-gray-800 whitespace-pre-wrap">
                   {post.content}
                 </p>
+<<<<<<< HEAD
               </div>
 
               <div className="mt-6 pt-6 border-t border-gray-200">
@@ -464,6 +492,8 @@ const PostDetail = () => {
                     Download PDF
                   </button>
                 )}
+=======
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
               </div>
             </div>
           </div>

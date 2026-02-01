@@ -134,6 +134,7 @@ const CreatePost = () => {
 
             <div>
               <label
+<<<<<<< HEAD
                 htmlFor="registrationUrl"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
@@ -154,6 +155,8 @@ const CreatePost = () => {
 
             <div>
               <label
+=======
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
@@ -169,7 +172,11 @@ const CreatePost = () => {
 
               {imagePreview && (
                 <div className="mt-4">
+<<<<<<< HEAD
                   <img
+=======
+                  <Image
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                     src={imagePreview}
                     alt="Preview"
                     className="w-full max-w-md h-48 object-cover rounded-md"

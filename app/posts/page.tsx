@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { IPost } from "@/models/post.model";
-import { handlePdfDownload } from "@/utils/pdfDownload";
 import Link from "next/link";
 
 const PostsList = () => {
@@ -23,7 +22,7 @@ const PostsList = () => {
       } else {
         setError("Failed to fetch posts");
       }
-    } catch (err) {
+    } catch {
       setError("Error fetching posts");
     } finally {
       setLoading(false);
@@ -39,6 +38,7 @@ const PostsList = () => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Posts</h1>
+
           <Link
             href="/posts/create"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -71,10 +71,12 @@ const PostsList = () => {
                     className="w-full h-48 object-cover"
                   />
                 )}
+
                 <div className="p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     {post.title}
                   </h2>
+
                   <p className="text-gray-600 mb-4 line-clamp-3">
                     {post.content}
                   </p>
@@ -90,14 +92,13 @@ const PostsList = () => {
                         Register →
                       </a>
                     )}
+
                     {post.pdfUrl && (
                       <button
                         onClick={() =>
-                          handlePdfDownload(
-                            post.pdfUrl!,
-                            post.title
-                              .replace(/[^a-z0-9]/gi, "_")
-                              .toLowerCase(),
+                          window.open(
+                            `/api/pdf?url=${encodeURIComponent(post.pdfUrl)}`,
+                            "_blank",
                           )
                         }
                         className="inline-flex items-center px-3 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full hover:bg-red-200 transition-colors"
@@ -112,6 +113,7 @@ const PostsList = () => {
                       <div>By {post.author?.name || "Unknown"}</div>
                       <div>{new Date(post.createdAt).toLocaleDateString()}</div>
                     </div>
+
                     <Link
                       href={`/posts/${post.id}`}
                       className="text-blue-600 hover:text-blue-800 text-sm font-medium"

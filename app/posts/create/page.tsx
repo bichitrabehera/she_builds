@@ -7,6 +7,8 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [registrationUrl, setRegistrationUrl] = useState("");
+  const [customButtonLabel, setCustomButtonLabel] = useState(""); // ✅ Added state for custom button label
+  const [eventDate, setEventDate] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
@@ -18,6 +20,7 @@ const CreatePost = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -50,15 +53,11 @@ const CreatePost = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
-      if (registrationUrl) {
-        formData.append("registrationUrl", registrationUrl);
-      }
-      if (imageFile) {
-        formData.append("image", imageFile);
-      }
-      if (pdfFile) {
-        formData.append("pdf", pdfFile);
-      }
+      if (registrationUrl) formData.append("registrationUrl", registrationUrl);
+      if (customButtonLabel) formData.append("customButtonLabel", customButtonLabel); // ✅ Append custom button label
+      if (eventDate) formData.append("eventDate", eventDate);
+      if (imageFile) formData.append("image", imageFile);
+      if (pdfFile) formData.append("pdf", pdfFile);
 
       const response = await fetch("/api/posts", {
         method: "POST",
@@ -71,10 +70,10 @@ const CreatePost = () => {
       if (response.ok) {
         router.push("/posts");
       } else {
-        const errorData = await response.json();
-        setError(errorData.error || "Failed to create post");
+        const data = await response.json();
+        setError(data.error || "Failed to create post");
       }
-    } catch (err) {
+    } catch {
       setError("Error creating post");
     } finally {
       setLoading(false);
@@ -96,171 +95,131 @@ const CreatePost = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+            {/* Title */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
                 Title
               </label>
               <input
                 type="text"
-                id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Post title"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter post title"
+                className="w-full px-3 py-2 border rounded-md"
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="content"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+            {/* Event Date */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Event Date (Optional)
+              </label>
+              <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+            </div>
+
+            {/* Content */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
                 Content
               </label>
               <textarea
-                id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                rows={6}
                 required
-                rows={8}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Write your post content here..."
+                className="w-full px-3 py-2 border rounded-md"
+                placeholder="Post content"
               />
             </div>
 
-            <div>
-              <label
-<<<<<<< HEAD
-                htmlFor="registrationUrl"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Registration Link (Optional)
+            {/* Registration URL */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Registration / Join URL (Optional)
               </label>
               <input
                 type="url"
-                id="registrationUrl"
                 value={registrationUrl}
                 onChange={(e) => setRegistrationUrl(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://example.com/register"
+                placeholder="https://..."
+                className="w-full px-3 py-2 border rounded-md"
               />
-              <p className="mt-1 text-sm text-gray-500">
-                Add a registration link for events or sign-ups
+            </div>
+
+            {/* Custom Button Label - ✅ Added Input */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Custom Button Label (Optional)
+              </label>
+              <input
+                type="text"
+                value={customButtonLabel}
+                onChange={(e) => setCustomButtonLabel(e.target.value)}
+                placeholder="e.g., Register Now, Join Me, Google Form"
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <p className="text-xs text-gray-500">
+                Defaults to "Register" if left blank.
               </p>
             </div>
 
-            <div>
-              <label
-=======
->>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
-                htmlFor="image"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Image (Optional)
+            {/* Image */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Image
               </label>
-              <input
-                type="file"
-                id="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-
-              {imagePreview && (
-                <div className="mt-4">
-<<<<<<< HEAD
-                  <img
-=======
-                  <Image
->>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full max-w-md h-48 object-cover rounded-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setImageFile(null);
-                      setImagePreview("");
-                    }}
-                    className="mt-2 text-red-600 hover:text-red-800 text-sm"
-                  >
-                    Remove image
-                  </button>
-                </div>
-              )}
+              <input type="file" accept="image/*" onChange={handleImageChange} />
             </div>
 
-            <div>
-              <label
-                htmlFor="pdf"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                PDF Document (Optional)
+            {imagePreview && (
+              <div className="mt-4">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full max-w-md h-48 object-cover rounded-md"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImageFile(null);
+                    setImagePreview("");
+                  }}
+                  className="mt-2 text-red-600 text-sm"
+                >
+                  Remove image
+                </button>
+              </div>
+            )}
+
+            {/* PDF */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                PDF Document
               </label>
               <input
                 type="file"
-                id="pdf"
                 accept="application/pdf"
                 onChange={handlePdfChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-
-              {pdfFile && (
-                <div className="mt-2 flex items-center justify-between p-3 bg-gray-50 rounded-md">
-                  <div className="flex items-center">
-                    <svg
-                      className="w-5 h-5 text-red-600 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <span className="text-sm text-gray-700">
-                      {pdfFile.name}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setPdfFile(null)}
-                    className="text-red-600 hover:text-red-800 text-sm"
-                  >
-                    Remove
-                  </button>
-                </div>
-              )}
-              <p className="mt-1 text-sm text-gray-500">
-                Upload a PDF document that users can download
-              </p>
             </div>
 
-            <div className="flex gap-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? "Creating..." : "Create Post"}
-              </button>
+            {pdfFile && (
+              <p className="text-sm text-gray-600">{pdfFile.name}</p>
+            )}
 
-              <button
-                type="button"
-                onClick={() => router.push("/posts")}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
+            >
+              {loading ? "Creating..." : "Create Post"}
+            </button>
           </form>
         </div>
       </div>

@@ -16,19 +16,19 @@ const TEAMS: Record<TeamKey, Person[]> = {
   Sponsorship: [
     {
       name: "Aastha",
-      image: "https://api.dicebear.com/7.x/adventurer/png?seed=Aastha",
+      image: "/gallery/aastha.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Harsh",
-      image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Harsh",
+      image: "/gallery/harsh.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Pia",
-      image: "https://api.dicebear.com/7.x/bottts/png?seed=Pia",
+      image: "/gallery/pia.jpeg",
       linkedin: "#",
       instagram: "#",
     },
@@ -37,34 +37,34 @@ const TEAMS: Record<TeamKey, Person[]> = {
   Web: [
     {
       name: "Bichitra",
-      image: "https://api.dicebear.com/7.x/lorelei/png?seed=Bichitra",
+      image: "/gallery/bichitra.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Matharishwa",
-      image: "https://api.dicebear.com/7.x/adventurer/png?seed=Matharishwa",
+      image: "/gallery/matha.jpeg",
       linkedin: "#",
       instagram: "#",
     },
-    {
-      name: "Khushi",
-      image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Khushi",
-      linkedin: "#",
-      instagram: "#",
-    },
+    // {
+    //   name: "Khushi",
+    //   image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Khushi",
+    //   linkedin: "#",
+    //   instagram: "#",
+    // },
   ],
 
   Design: [
     {
       name: "Raksha",
-      image: "https://api.dicebear.com/7.x/lorelei/png?seed=Raksha",
+      image: "/gallery/raksha.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Moulika",
-      image: "https://api.dicebear.com/7.x/adventurer/png?seed=Moulika",
+      image: "/gallery/moulika.jpeg",
       linkedin: "#",
       instagram: "#",
     },
@@ -94,25 +94,25 @@ const TEAMS: Record<TeamKey, Person[]> = {
   Marketing: [
     {
       name: "Tathagat",
-      image: "https://api.dicebear.com/7.x/adventurer/png?seed=Tathagat",
+      image: "/gallery/thatagat.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Naman",
-      image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Naman",
+      image: "/gallery/naman.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Lohitha",
-      image: "https://api.dicebear.com/7.x/lorelei/png?seed=Lohitha",
+      image: "/gallery/lohitha.jpeg",
       linkedin: "#",
       instagram: "#",
     },
     {
       name: "Erum",
-      image: "https://api.dicebear.com/7.x/bottts/png?seed=Erum",
+      image: "/gallery/erum.jpeg",
       linkedin: "#",
       instagram: "#",
     },
@@ -173,7 +173,7 @@ export default function People() {
   const people = useMemo(() => TEAMS[activeTeam], [activeTeam]);
 
   return (
-    <section className="bg-white py-16">
+    <section className="bg-gray-50 py-16">
       <div className=" mx-auto px-4">
         <div className="text-center mb-14">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Our Team</h1>

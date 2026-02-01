@@ -6,12 +6,12 @@ const faqs = [
   {
     question: "What is SheBuilds Bangalore?",
     answer:
-      "SheBuilds Bangalore is a community-led ecosystem for women who build — in tech, design, startups, and beyond. We focus on learning together, building projects, and creating meaningful connections in a safe and inclusive space.",
+      "SheBuilds Bangalore is a community-led ecosystem for women who build in tech, design, startups, and beyond. We focus on learning together, building projects, and creating meaningful connections in a safe and inclusive space.",
   },
   {
     question: "Who can join the community?",
     answer:
-      "SheBuilds Bangalore is open to women and non-binary individuals who are interested in building, learning, or growing in tech-related fields. You don’t need prior experience — beginners are always welcome.",
+      "SheBuilds Bangalore is open to women and non-binary individuals who are interested in building, learning, or growing in tech-related fields. You don’t need prior experience beginners are always welcome.",
   },
   {
     question: "Do I need a tech background to join?",
@@ -75,7 +75,7 @@ const FAQs = () => {
             return (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-lg transition hover:bg-gray-50 shadow-sm shadow-purple-300"
+                className="bg-white border border-gray-200 rounded-lg transition hover:bg-gray-50 shadow shadow-purple-100"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}

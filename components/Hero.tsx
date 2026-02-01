@@ -51,14 +51,14 @@ const Hero = () => {
             Bangalore
           </h1>
 
-          <p className="mt-6 text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto">
+          <p className="mt-6 text md:text-xl text-neutral-600 max-w-2xl mx-auto">
             SheBuilds Bangalore is a community-led space for learning,
             collaboration, and growth across tech, design, startups, and beyond.
           </p>
         </div>
 
         <div className="relative mt-24 mx-auto w-full max-w-4xl">
-          <div className="relative h-100 overflow-hidden rounded-xl">
+          <div className="relative h-100 md:h-120 overflow-hidden rounded-xl">
             {images.map((src, i) => (
               <div
                 key={src}

@@ -31,7 +31,7 @@ const values = [
 
 const About = () => {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-white to-gray-50 py-20 md:py-28">
+    <section className="relative overflow-hidden bg-linear-to-b from-white to-gray-50 py-20">
       <div className="absolute top-0 left-0 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
       <div className="absolute top-0 right-0 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
       <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
@@ -131,14 +131,13 @@ const About = () => {
             {values.map((value, index) => (
               <div
                 key={index}
-                className="group relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white rounded p-4 border border-gray-200 hover:border-transparent  transition-all duration-300"
               >
                 <div
                   className={`absolute top-0 right-0 w-12 h-12 bg-linear-to-br ${value.color} opacity-10 rounded-tr-2xl rounded-bl-3xl`}
                 ></div>
 
                 <div className="relative z-10">
-
                   <h3 className="text-xl font-bold mb-4 group-hover:text-purple-700 transition-colors">
                     {value.title}
                   </h3>
@@ -163,26 +162,37 @@ const About = () => {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto mt-24">
-          <div className="bg-linear-to-r from-purple-50 to-pink-50 rounded-3xl p-8 md:p-12 text-center border border-purple-100">
-            <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+        <div className="max-w-4xl mx-auto mt-28 px-4">
+          <div className="relative overflow-hidden rounded bg-linear-to-br from-orange-50 via-blue-50 to-white p-10 md:p-16 text-center shadow-sm border border-purple-100">
+            {/* subtle glow */}
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-orange-200/30 rounded-full blur-3xl" />
 
-            <p className="text-gray-700 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-              To empower women by providing a collaborative ecosystem that
-              fosters upskilling, innovation, and mentorship enabling them to
-              grow as confident creators, entrepreneurs, and changemakers.
-            </p>
+            <div className="relative z-10">
+              <h2 className="text-4xl  font-extrabold mb-8 tracking-tight text-gray-900">
+                Our Mission
+              </h2>
 
-            <div className="relative max-w-xl mx-auto">
-              <p className="text-2xl md:text-3xl font-bold italic text-gray-900 relative z-10">
-                Built by her. Backed by boldness.
+              <p className="text-gray-700 text max-w-3xl mx-auto leading-relaxed mb-12">
+                To empower women by building a collaborative ecosystem that
+                nurtures upskilling, innovation, and mentorship enabling them
+                to grow as confident creators, entrepreneurs, and changemakers.
               </p>
-            </div>
 
-            <div className="mt-12">
-              <p className="text-sm text-gray-600 mt-4">
-                10,000+ members and growing
-              </p>
+              {/* QUOTE */}
+              <div className="relative inline-block mb-10">
+                <span className="absolute inset-0 bg-linear-to-r from-purple-300 to-pink-300 blur-xl opacity-40" />
+                <p className="relative text-2xl font-bold italic text-gray-900">
+                  Built by her. Backed by boldness.
+                </p>
+              </div>
+
+              {/* STAT */}
+              <div className="mt-6">
+                <p className="text-sm uppercase tracking-widest text-gray-600">
+                  10,000+ members · growing every day
+                </p>
+              </div>
             </div>
           </div>
         </div>

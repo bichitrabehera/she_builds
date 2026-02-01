@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../../libs/db";
 import { uploadImageToCloudinary } from "../../../libs/upload";
+import { signCloudinaryUrl } from "../../../libs/generateSignedUrl";
 
 export const runtime = "nodejs";
 
@@ -26,6 +27,8 @@ export async function POST(request: NextRequest) {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const imageFile = formData.get("image") as File | null;
+    const pdfFile = formData.get("pdf") as File | null;
+    const registrationUrl = formData.get("registrationUrl") as string | null;
 
     if (!title || !content) {
       return NextResponse.json(
@@ -35,6 +38,7 @@ export async function POST(request: NextRequest) {
     }
 
     let imageUrl: string | undefined;
+    let pdfUrl: string | undefined;
 
     if (imageFile && imageFile.size > 0) {
       try {
@@ -48,11 +52,25 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    if (pdfFile && pdfFile.size > 0) {
+      try {
+        pdfUrl = await uploadImageToCloudinary(pdfFile);
+      } catch (uploadError) {
+        console.error("PDF upload error:", uploadError);
+        return NextResponse.json(
+          { error: "Failed to upload PDF" },
+          { status: 500 },
+        );
+      }
+    }
+
     const newPost = await prisma.post.create({
       data: {
         title,
         content,
         imageUrl,
+        pdfUrl,
+        registrationUrl: registrationUrl || undefined,
         authorId: decoded.userId,
       },
       include: {
@@ -94,7 +112,13 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ posts }, { status: 200 });
+    // Generate signed URLs for PDFs
+    const postsWithSignedUrls = posts.map((post) => ({
+      ...post,
+      pdfUrl: post.pdfUrl ? signCloudinaryUrl(post.pdfUrl) : null,
+    }));
+
+    return NextResponse.json({ posts: postsWithSignedUrls }, { status: 200 });
   } catch (error) {
     console.error("Fetch posts error:", error);
     return NextResponse.json(

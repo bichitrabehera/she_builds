@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [registrationUrl, setRegistrationUrl] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,6 +23,15 @@ const CreatePost = () => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type === "application/pdf") {
+      setPdfFile(file);
+    } else if (file) {
+      setError("Please select a valid PDF file");
     }
   };
 
@@ -40,8 +50,14 @@ const CreatePost = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
+      if (registrationUrl) {
+        formData.append("registrationUrl", registrationUrl);
+      }
       if (imageFile) {
         formData.append("image", imageFile);
+      }
+      if (pdfFile) {
+        formData.append("pdf", pdfFile);
       }
 
       const response = await fetch("/api/posts", {
@@ -118,6 +134,29 @@ const CreatePost = () => {
 
             <div>
               <label
+<<<<<<< HEAD
+                htmlFor="registrationUrl"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Registration Link (Optional)
+              </label>
+              <input
+                type="url"
+                id="registrationUrl"
+                value={registrationUrl}
+                onChange={(e) => setRegistrationUrl(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="https://example.com/register"
+              />
+              <p className="mt-1 text-sm text-gray-500">
+                Add a registration link for events or sign-ups
+              </p>
+            </div>
+
+            <div>
+              <label
+=======
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
@@ -133,7 +172,11 @@ const CreatePost = () => {
 
               {imagePreview && (
                 <div className="mt-4">
+<<<<<<< HEAD
+                  <img
+=======
                   <Image
+>>>>>>> c78363595032ace645edd8b0ee0d6d860951e3f1
                     src={imagePreview}
                     alt="Preview"
                     className="w-full max-w-md h-48 object-cover rounded-md"
@@ -150,6 +193,55 @@ const CreatePost = () => {
                   </button>
                 </div>
               )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="pdf"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                PDF Document (Optional)
+              </label>
+              <input
+                type="file"
+                id="pdf"
+                accept="application/pdf"
+                onChange={handlePdfChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+
+              {pdfFile && (
+                <div className="mt-2 flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                  <div className="flex items-center">
+                    <svg
+                      className="w-5 h-5 text-red-600 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span className="text-sm text-gray-700">
+                      {pdfFile.name}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPdfFile(null)}
+                    className="text-red-600 hover:text-red-800 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
+              <p className="mt-1 text-sm text-gray-500">
+                Upload a PDF document that users can download
+              </p>
             </div>
 
             <div className="flex gap-4">

@@ -5,6 +5,8 @@ export type IPost = PrismaPost & {
     name: string;
     email: string;
   };
+  registrationUrl?: string; // Optional registration link
+  pdfUrl?: string; // Optional PDF upload
 };
 
-export { PrismaPost as Post };
+export type { PrismaPost as Post };

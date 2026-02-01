@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { IPost } from "@/models/post.model";
+import { handlePdfDownload } from "@/utils/pdfDownload";
 import Link from "next/link";
-import Image from "next/image";
 
 const PostsList = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -65,7 +65,7 @@ const PostsList = () => {
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 {post.imageUrl && (
-                  <Image
+                  <img
                     src={post.imageUrl}
                     alt={post.title}
                     className="w-full h-48 object-cover"
@@ -78,9 +78,39 @@ const PostsList = () => {
                   <p className="text-gray-600 mb-4 line-clamp-3">
                     {post.content}
                   </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {post.registrationUrl && (
+                      <a
+                        href={post.registrationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full hover:bg-green-200 transition-colors"
+                      >
+                        Register →
+                      </a>
+                    )}
+                    {post.pdfUrl && (
+                      <button
+                        onClick={() =>
+                          handlePdfDownload(
+                            post.pdfUrl!,
+                            post.title
+                              .replace(/[^a-z0-9]/gi, "_")
+                              .toLowerCase(),
+                          )
+                        }
+                        className="inline-flex items-center px-3 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full hover:bg-red-200 transition-colors"
+                      >
+                        PDF ↓
+                      </button>
+                    )}
+                  </div>
+
                   <div className="flex justify-between items-center">
                     <div className="text-sm text-gray-500">
-                      By {post.author?.name || "Unknown"}
+                      <div>By {post.author?.name || "Unknown"}</div>
+                      <div>{new Date(post.createdAt).toLocaleDateString()}</div>
                     </div>
                     <Link
                       href={`/posts/${post.id}`}

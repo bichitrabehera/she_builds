@@ -17,12 +17,14 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  imageUrl  String?
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  content         String
+  imageUrl        String?
+  pdfUrl          String?  // Optional PDF upload
+  authorId        String
+  author          User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  registrationUrl String?  // Optional registration link
+  createdAt       DateTime @default(now()) // This is the posted time
+  updatedAt       DateTime @updatedAt
 }

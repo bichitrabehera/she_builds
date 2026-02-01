@@ -4,24 +4,54 @@ import React, { useState } from "react";
 
 const faqs = [
   {
-    question: "How to create an account?",
+    question: "What is SheBuilds Bangalore?",
     answer:
-      "You can create an account by signing up using your email address. Once registered, you’ll gain access to the SheBuilds community and events.",
+      "SheBuilds Bangalore is a community-led ecosystem for women who build — in tech, design, startups, and beyond. We focus on learning together, building projects, and creating meaningful connections in a safe and inclusive space.",
   },
   {
-    question: "How can I make payment using PayPal?",
+    question: "Who can join the community?",
     answer:
-      "Payments can be made securely through PayPal during checkout. You’ll be redirected to PayPal to complete the transaction.",
+      "SheBuilds Bangalore is open to women and non-binary individuals who are interested in building, learning, or growing in tech-related fields. You don’t need prior experience — beginners are always welcome.",
   },
   {
-    question: "Can I cancel my plan?",
+    question: "Do I need a tech background to join?",
     answer:
-      "Yes, you can cancel your plan anytime from your account settings without additional charges.",
+      "Not at all. Whether you’re just starting out, switching careers, or already working in tech, you’re welcome here. The community includes developers, designers, product thinkers, founders, and curious learners.",
   },
   {
-    question: "How can I reach support?",
+    question: "Is SheBuilds Bangalore free to join?",
     answer:
-      "You can contact our support team via email or through the contact form on our website.",
+      "Yes. Joining the community is completely free. Some workshops or special events may have limited seats, but we always aim to keep participation accessible.",
+  },
+  {
+    question: "What kind of events do you host?",
+    answer:
+      "We host meetups, hands-on build sessions, workshops, talks, and community-led discussions. Events focus on learning, collaboration, and real-world building experiences.",
+  },
+  {
+    question: "How can I stay updated about events?",
+    answer:
+      "You can stay updated by joining our community channels and following us on social media. Event announcements are shared regularly with registration details.",
+  },
+  {
+    question: "Can I volunteer or contribute?",
+    answer:
+      "Absolutely. Community members can contribute by volunteering, helping organize events, mentoring others, or leading sessions. We encourage everyone to build the community together.",
+  },
+  {
+    question: "Is this only for people in Bangalore?",
+    answer:
+      "While our events are primarily based in Bangalore, anyone is welcome to join our online community and participate in virtual sessions when available.",
+  },
+  {
+    question: "How can I collaborate or partner with SheBuilds?",
+    answer:
+      "If you’re interested in collaborations, partnerships, or sponsoring events, you can reach out to us via email or through our contact page.",
+  },
+  {
+    question: "How do I join SheBuilds Bangalore?",
+    answer:
+      "You can join by clicking the ‘Join Community’ button on the website and following the instructions. Once you’re in, you’ll be part of our growing ecosystem.",
   },
 ];
 
@@ -32,9 +62,7 @@ const FAQs = () => {
     <section className="py-16 bg-gray-50 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-4xl font-bold  text-black">
-            FAQs
-          </h2>
+          <h2 className="text-4xl font-bold  text-black">FAQs</h2>
           <p className="mt-4 text-gray-600">
             Everything you need to know about SheBuilds.
           </p>
@@ -47,7 +75,7 @@ const FAQs = () => {
             return (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-lg transition hover:bg-gray-50"
+                className="bg-white border border-gray-200 rounded-lg transition hover:bg-gray-50 shadow-sm shadow-purple-300"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}

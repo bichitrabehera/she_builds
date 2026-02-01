@@ -1,16 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
 
   return (
     <header className=" sticky top-0 z-50 backdrop-blur-md">
@@ -31,50 +25,6 @@ const Header = () => {
                 Posts
               </Link>
             </li>
-
-            {isLoggedIn ? (
-              <>
-                <li>
-                  <Link
-                    href="/posts/create"
-                    className="text-neutral-700 hover:text-purple-700 transition"
-                  >
-                    Create Post
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("user");
-                      window.location.href = "/posts";
-                    }}
-                    className="text-neutral-700 hover:text-purple-700 transition"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link
-                    href="/auth/login"
-                    className="text-neutral-700 hover:text-purple-700 transition"
-                  >
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/auth/register"
-                    className="bg-purple-600 text-white px-4 py-2 rounded-2xl hover:bg-purple-700 transition"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-              </>
-            )}
           </ul>
         </nav>
 
@@ -98,69 +48,6 @@ const Header = () => {
           </svg>
         </button>
       </div>
-
-      {open && (
-        <div className="md:hidden border-t border-black/10 bg-white">
-          <ul className="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
-            <li>
-              <Link
-                href="/posts"
-                onClick={() => setOpen(false)}
-                className="block text-neutral-700 hover:text-purple-700"
-              >
-                Posts
-              </Link>
-            </li>
-
-            {isLoggedIn ? (
-              <>
-                <li>
-                  <Link
-                    href="/posts/create"
-                    onClick={() => setOpen(false)}
-                    className="block text-neutral-700 hover:text-purple-700"
-                  >
-                    Create Post
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("user");
-                      window.location.href = "/posts";
-                    }}
-                    className="block text-neutral-700 hover:text-purple-700 text-left"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link
-                    href="/auth/login"
-                    onClick={() => setOpen(false)}
-                    className="block text-neutral-700 hover:text-purple-700"
-                  >
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/auth/register"
-                    onClick={() => setOpen(false)}
-                    className="block bg-purple-600 text-white text-center py-2 rounded-2xl hover:bg-purple-700 transition"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      )}
     </header>
   );
 };

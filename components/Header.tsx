@@ -9,20 +9,18 @@ const Header = () => {
   return (
     <header className=" sticky top-0 z-50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
         <div className="text-xl font-bold uppercase text-purple-700">
           / shebuilds <span className="text-neutral-900">blr</span>
         </div>
 
-        {/* Desktop nav */}
         <nav className="hidden md:block">
           <ul className="flex items-center gap-6 text-sm font-medium">
             <li>
               <Link
-                href="/posts"
+                href="/"
                 className="text-neutral-700 hover:text-purple-700 transition"
               >
-                Posts
+                Join Us
               </Link>
             </li>
           </ul>

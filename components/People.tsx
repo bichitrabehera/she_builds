@@ -70,7 +70,7 @@ const TEAMS: Record<TeamKey, Person[]> = {
     },
     {
       name: "Moulya",
-      image: "https://api.dicebear.com/7.x/pixel-art/png?seed=Moulya",
+      image: "/gallery/amulya.jpeg",
       linkedin: "#",
       instagram: "#",
     },
@@ -125,7 +125,7 @@ const PersonCard = React.memo(function PersonCard({
   person: Person;
 }) {
   return (
-    <div className="w-80 flex flex-col overflow-hidden rounded-xl shadow border border-black/10 group">
+    <div className="w-80 flex flex-col overflow-hidden rounded-xl shadow border border-black/40 group">
       <div className="relative w-full h-70 overflow-hidden">
         <Image
           src={person.image}
@@ -187,7 +187,7 @@ export default function People() {
             Bangalore Regional Head
           </h2>
 
-          <div className="w-80 flex flex-col overflow-hidden rounded-xl border border-black/10 group">
+          <div className="w-80 flex flex-col overflow-hidden rounded-xl border border-black/40 group">
             <div className="relative w-full h-70 overflow-hidden">
               <Image
                 src="/gallery/trisha.jpeg"

@@ -8,7 +8,9 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 pt-10 text-white">
         <div className="flex flex-col md:flex-row md:justify-between gap-14 border-b border-white/10 pb-12">
           <div className="max-w-sm">
-            <h3 className="text-xl font-semibold tracking-wide">SheBuilds</h3>
+            <h3 className="text-xl font-semibold tracking-wide">
+              SheBuilds Bangalore
+            </h3>
 
             <p className="mt-4 text-sm text-white/60 leading-relaxed">
               A global community empowering women to build, ship, and lead in
@@ -24,13 +26,9 @@ const Footer = () => {
 
               <ul className="space-y-3 text-white/60">
                 <li className="hover:text-white transition cursor-pointer">
-                  About
-                </li>
-                <li className="hover:text-white transition cursor-pointer">
-                  Events
-                </li>
-                <li className="hover:text-white transition cursor-pointer">
-                  Join SheBuilds
+                  <a href="https://www.shebuildsecosystem.com/register">
+                    Join SheBuilds
+                  </a>
                 </li>
               </ul>
             </div>
@@ -40,17 +38,19 @@ const Footer = () => {
                 Connect
               </h4>
 
-              <ul className="space-y-3 text-white/60">
+              <ul className="space-y-3 underline text-white/60">
                 <li>
                   <a
                     href="mailto:shebuildsblr@gmail.com"
                     className="hover:text-white transition"
                   >
-                    Email
+                    shebuildsblr@gmail.com
                   </a>
                 </li>
                 <li className="hover:text-white transition cursor-pointer">
-                  Instagram
+                  <a href="https://www.instagram.com/shebuilds_bangalore?igsh=MXdkcXU4amkwNjBrNw==">
+                    Instagram
+                  </a>
                 </li>
               </ul>
             </div>

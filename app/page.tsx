@@ -1,23 +1,17 @@
-import About from "@/components/About";
-import FAQs from "@/components/Faqs";
-import Hero from "@/components/Hero";
-import People from "@/components/People";
-import Posts from "@/components/Posts";
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import React from "react";
+import About from "@/components/sections/about";
+import Faq from "@/components/sections/faq";
+import Hero from "@/components/sections/hero";
+import Team from "@/components/sections/team";
+import Events from "@/components/sections/events";
 
-const Home = () => {
+export default function Home() {
   return (
     <>
-      {/* <SmoothScrollProvider> */}
-        <Hero />
-        <About />
-        <Posts/>
-        <People />
-        <FAQs/>
-      {/* </SmoothScrollProvider> */}
+      <Hero />
+      <About />
+      <Events />
+      <Team />
+      <Faq />
     </>
   );
-};
-
-export default Home;
+}
